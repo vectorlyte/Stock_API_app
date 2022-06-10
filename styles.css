@@ -1,0 +1,33 @@
+
+body{
+    background-color: rgb(100, 150, 100);
+    box-sizing: border-box;
+}
+
+.chart-container{
+    background-color: rgb(50, 120, 20);
+    max-width: 660px;
+    height: 300px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    border: 2px solid rgb(170,240,20);
+    box-shadow: 10px 10px 25px -3px rgba(33, 66, 28, 0.67);
+}
+
+.buttons{
+    width: 20px;
+    height: 20px;
+    border-color: rgb(170, 240, 20);
+    background-color: rgb(100, 90, 230);
+}
+.button-container{
+    margin-top: 5px;
+    margin-left: 7px;
+    width: 70px;
+    height: 20px;
+    /* border: 2px solid rgb(170, 240, 20); */
+}
+
+#chartDiv{
+    height: 92%;
+}

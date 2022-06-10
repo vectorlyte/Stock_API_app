@@ -2,8 +2,16 @@ let values = []
 let candleCloses = []
 let time = []
 var key = config.MY_API_KEY
+let select = 0
+let symbol = "AAPL"
+const functions = ["TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"]
+const series = ["Time Series (Daily)", "Weekly Time Series", "Monthly Time Series"]
+let apiFunction = functions[select]
+let timeSeries = series[select]
 // get data from stock API
-fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&interval=60min&apikey=' + key)
+fetchData();
+function fetchData(){
+fetch('https://www.alphavantage.co/query?function=' + apiFunction + '&symbol=' + symbol + '&interval=60min&apikey=' + key)
     .then(res => {
         return res.json()
     })
@@ -13,16 +21,16 @@ fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&i
     console.log(series)
     renderGraph(series)
     })
-
+}
 // Sort data into readable format for JSCharting
 function sortData(data){
     let series = []
-    values = Object.values(data["Time Series (Daily)"])
+    values = Object.values(data[timeSeries])
             values.forEach(function (row){
                 candleCloses.unshift(parseInt(row["4. close"].substring(0,6)))
             })
             
-            Object.getOwnPropertyNames(data["Time Series (Daily)"]).forEach(function (row){
+            Object.getOwnPropertyNames(data[timeSeries]).forEach(function (row){
                 time.unshift(new Date(row))
             })
 
@@ -50,14 +58,14 @@ function renderGraph(series){
                 },
                 title: {
                     label: {
-                    text: 'IBM',
+                    text: symbol,
                     style_fontSize: 20,
                     },
                     position: 'center'
                 }, 
                 box: {
                     padding: 10,
-                    outline: {color: 'rgb(50,100,20)', width: 4},
+                    outline: {color: 'rgb(50,120,20)', width: 4},
                     radius: 5,
                     fill: 'rgb(100,200,30)'
                 },
