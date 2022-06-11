@@ -1,16 +1,38 @@
-let values = []
-let candleCloses = []
-let time = []
-var key = config.MY_API_KEY
-let select = 0
-let symbol = "AAPL"
-const functions = ["TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"]
-const series = ["Time Series (Daily)", "Weekly Time Series", "Monthly Time Series"]
-let apiFunction = functions[select]
-let timeSeries = series[select]
+let values = [];
+let candleCloses = [];
+let time = [];
+var key = config.MY_API_KEY;
+let select = 0;
+let stockName = "";
+const functions = ["TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"];
+const series = ["Time Series (Daily)", "Weekly Time Series", "Monthly Time Series"];
+let apiFunction = functions[select];
+let timeSeries = series[select];
+
+const searchEl = document.getElementById("search-in");
+const searchContainer = document.getElementById;("search-container");
+let results = [];
+
+searchEl.addEventListener("input", function(){
+    searchStocks(searchEl.value);
+});
+
+function searchStocks(value){
+    fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + value + '&apikey=' + key)
+    .then(res => {
+        return res.json();
+    })
+    .then(data => {
+        results.push(data);
+        fetchData(results[0].bestMatches[0]["1. symbol"]);
+        stockName = (results[0].bestMatches[0]["2. name"]);
+        results = [];
+    })
+};
+
 // get data from stock API
-fetchData();
-function fetchData(){
+
+function fetchData(symbol){
 fetch('https://www.alphavantage.co/query?function=' + apiFunction + '&symbol=' + symbol + '&interval=60min&apikey=' + key)
     .then(res => {
         return res.json()
@@ -58,7 +80,7 @@ function renderGraph(series){
                 },
                 title: {
                     label: {
-                    text: symbol,
+                    text: stockName,
                     style_fontSize: 20,
                     },
                     position: 'center'
@@ -74,6 +96,8 @@ function renderGraph(series){
                 
     });
 }
+
+
 
 
 //Callbacks
