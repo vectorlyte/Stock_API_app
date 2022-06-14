@@ -28,6 +28,11 @@ body{
     /* border: 2px solid rgb(170, 240, 20); */
 }
 
-#chartDiv{
+.chartDiv{
     height: 92%;
+}
+
+#search-in {
+    display: block;
+    margin: auto;
 }
