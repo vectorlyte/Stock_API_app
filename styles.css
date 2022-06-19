@@ -1,17 +1,34 @@
 
 body{
-    background-color: rgb(100, 150, 100);
+    background: linear-gradient(rgb(100, 150, 100),rgb(64, 113, 64));
     box-sizing: border-box;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 100vh;
+}
+#grid-container{
+    padding-top: 10px;
+    display:flex;
+    justify-content: center;
+}
+#chart-grid{
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 95%;
+    transition-duration: 2s;
 }
 
 .chart-container{
     background-color: rgb(50, 120, 20);
     max-width: 660px;
+    min-width: 31%;
     height: 300px;
     padding-bottom: 3px;
     border-radius: 5px;
     border: 2px solid rgb(170,240,20);
     box-shadow: 10px 10px 25px -3px rgba(33, 66, 28, 0.67);
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 .buttons{
@@ -19,6 +36,10 @@ body{
     height: 20px;
     border-color: rgb(170, 240, 20);
     background-color: rgb(100, 90, 230);
+    border-radius: 10px;
+}
+#deleteChart{
+    background-color: red;
 }
 .button-container{
     margin-top: 5px;
@@ -33,6 +54,35 @@ body{
 }
 
 #search-in {
-    display: block;
-    margin: auto;
+    border-radius: 5px;
+    
+}
+
+#search-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+
+}
+
+#results-container{
+    background-color: rgba(33, 66, 28, 0.67);
+    color: rgb(125, 228, 0);
+    position: absolute;
+    top: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.result{
+    padding: 5px;
+    transition-duration: 200ms;
+    border-radius: 5px;
+}
+.result:hover{
+    background-color:rgb(135, 216, 36);
+    color: rgba(11, 49, 6, 0.67); 
+    font-weight: bold
 }

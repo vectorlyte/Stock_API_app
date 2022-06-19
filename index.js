@@ -1,7 +1,6 @@
 let values = [];
 let candleCloses = [];
 let time = [];
-var key = config.MY_API_KEY;
 let select = 0;
 const names = []
 const functions = ["TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"];
@@ -13,42 +12,70 @@ const dataSeries = [];
 const chartGrid = document.getElementById("chart-grid");
 const searchEl = document.getElementById("search-in");
 const searchContainer = document.getElementById;("search-container");
+const resultsEl = document.getElementById("results-container");
 let results = [];
 
 const chartChildren = [];
 let id = 1;
 
+//This creates the initial chart
+fetchData("AAPL","Apple");
+
 searchEl.addEventListener("input", function(){
     if(searchEl.value)searchStocks(searchEl.value);
+    else resultsEl.innerHTML = "";
 });
 
 function searchStocks(value){
-    fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + value + '&apikey=' + key)
+    fetch(`http://localhost:5000/${value}`)
     .then(res => {
         return res.json();
     })
     .then(data => {
         results.push(data);
-        fetchData(results[0].bestMatches[0]["1. symbol"]);
-        let stockName = (results[0].bestMatches[0]["2. name"]);
-        names.push(stockName);
-        results = [];
+        showResults(results);
     })
 };
 
+function showResults(){
+    let searches = ""
+    if(results[0].Note){
+        resultsEl.innerHTML = `<div>API busy</div>`;
+        results = [];
+    }
+    else if(results[0].bestMatches){
+    for(let i = 0; i < results[0].bestMatches.length; i++){
+        searches += `<div class="result" onclick="fetchData('${results[0].bestMatches[i]["1. symbol"]}','${results[0].bestMatches[i]["2. name"]}')">${results[0].bestMatches[i]["2. name"]}
+        </div>`
+    } 
+    resultsEl.innerHTML = searches;
+    searches = "";
+    results = [];
+    }else{resultsEl.innerHTML = `<div>Invalid input</div>`;results = [];};
+}
+
 // get data from stock API
 
-function fetchData(symbol){
-fetch('https://www.alphavantage.co/query?function=' + apiFunction + '&symbol=' + symbol + '&interval=60min&apikey=' + key)
+function fetchData(symbol, name){
+fetch(`http://localhost:5000/${apiFunction}/${symbol}`)
     .then(res => {
         return res.json()
     })
     .then(data => {
         console.log(data)
+        if(data.Note){
+        resultsEl.innerHTML = `<div>API busy</div>`;
+        console.log("API busy")
+    }
+    else {
+        let stockName = name;
+        names.push(stockName);
+        results = [];
+        resultsEl.innerHTML = "";
     let series = sortData(data)
     dataSeries.push(series)
-    console.log(series)
     renderGraph()
+}
     })
 }
 // Sort data into readable format for JSCharting
@@ -78,9 +105,7 @@ function renderGraph(){
     chartChild = `
     <div id=${id} class="chart-container">
         <div class="button-container">
-            <button class="buttons"></button>
-            <button class="buttons"></button>
-            <button class="buttons"></button>
+            <button id="deleteChart" class="buttons" onclick="deleteChart(${id})"></button>
         </div>
         <div id="chart${id}" class="chartDiv"></div>
     </div>`;
@@ -113,52 +138,9 @@ for(let i = 0; i < id; i++){
     id++;
 }
 
-
-
-
-//Callbacks
-
-// function firstFunction(parameters, callback){
-//     //do stuff
-//     callback();
-// }
-
-// // "callback hell"
-// firstFunction(para, function(){
-//     secondFumction(para, function(){
-//         thirdFunction(para, function(){
-            
-//         });
-//     });
-// });
-
-// Promises
-
-// 3 states: Pending, Fulfilled, Rejected
-
-// const myPromise = new Promise((resolve, reject) => {
-//     const error = true;
-//     if(!error) {
-//         resolve("Yes! resolved the promise!");
-//     } else {
-//         reject("No! rejected the promise.");
-//     }
-// });
-
-// console.log(myPromise);
-
-// myPromise.then(value => {
-//     return value + 1;
-// })
-// .then(newValue => {
-//     console.log(newValue);
-// })
-// .catch(err => {
-//     console.log(err);
-// })
-
-// const myNextPromise = new Promise((resolve, reject) => {
-//     setTimeout(function(){
-//         resolve("myNextPromise resolved")
-//     }, 3000)
-// })
+function deleteChart(chartId){
+    dataSeries.pop(chartId);
+    names.pop(chartId);
+    chartGrid.removeChild(document.getElementById(chartId))
+    id--;
+}
