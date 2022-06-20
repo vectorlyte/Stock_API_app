@@ -8,6 +8,7 @@ const series = ["Time Series (Daily)", "Weekly Time Series", "Monthly Time Serie
 let apiFunction = functions[select];
 let timeSeries = series[select];
 const dataSeries = [];
+const port = location.port
 
 const chartGrid = document.getElementById("chart-grid");
 const searchEl = document.getElementById("search-in");
@@ -17,7 +18,6 @@ let results = [];
 
 const chartChildren = [];
 let id = 1;
-
 //This creates the initial chart
 fetchData("AAPL","Apple");
 
@@ -27,7 +27,7 @@ searchEl.addEventListener("input", function(){
 });
 
 function searchStocks(value){
-    fetch(`http://localhost:5000/${value}`)
+    fetch(`http://localhost:${port}/${value}`)
     .then(res => {
         return res.json();
     })
@@ -57,7 +57,7 @@ function showResults(){
 // get data from stock API
 
 function fetchData(symbol, name){
-fetch(`http://localhost:5000/${apiFunction}/${symbol}`)
+fetch(`http://localhost:${port}/${apiFunction}/${symbol}`)
     .then(res => {
         return res.json()
     })
