@@ -19,7 +19,7 @@ const chartChildren = [];
 let id = 1;
 
 //This creates the initial chart
-// fetchData("AAPL","Apple");
+fetchData("AAPL","Apple");
 
 searchEl.addEventListener("input", function(){
     if(searchEl.value)searchStocks(searchEl.value);

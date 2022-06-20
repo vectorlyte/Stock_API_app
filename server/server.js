@@ -17,6 +17,8 @@ app.get('/:value', async (req, res) => {
 
 app.get('/:apiFunction/:symbol', async (req, res) => {
     const response = await axios.get(`https://www.alphavantage.co/query?function=${req.params.apiFunction}&symbol=${req.params.symbol}&interval=60min&apikey=${process.env.API_KEY}`);
-})
+    console.log(res.json(response.data));
+
+});
 
 app.listen(PORT, () => console.log(`server is running on ${PORT}`));
