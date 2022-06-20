@@ -16,21 +16,21 @@ Daily prices of the last five months can be viewed by mousing over the graph lin
 
 ![Features](/images/Screenshot38.png)
 
-
 ## How to Use
 
 1. Get the api key here: https://www.alphavantage.co/support/#api-key
 
 2. Clone the repo to your machine and install dependencies:
+
 - axios
 - cors
 - dotenv
-- express
-To do this, enter "npm i (current dependency to be installed)" in the terminal
+- express  
+  To do this, enter "npm i (current dependency to be installed)" in the terminal
 
 3. Enter your key into the .env_sample file and rename the file to .env.
 
 4. Start the mode server by entering these commands into the terminal:
-"cd server" followed by "node server.js".
+   "cd server" followed by "node server.js".
 
 5. Now just host the website on your local machine. An easy way to do this is by using the Live Server extension on VS Code.
