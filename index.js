@@ -8,7 +8,7 @@ const series = ["Time Series (Daily)", "Weekly Time Series", "Monthly Time Serie
 let apiFunction = functions[select];
 let timeSeries = series[select];
 const dataSeries = [];
-const port = location.port
+const port = 5000
 
 const chartGrid = document.getElementById("chart-grid");
 const searchEl = document.getElementById("search-in");
